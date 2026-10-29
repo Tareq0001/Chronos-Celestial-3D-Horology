@@ -1,0 +1,22 @@
+{
+  "name": "chronos-celestial-3d-horology",
+  "version": "1.0.0",
+  "description": "Celestial 3D Kinetic Horology & Tourbillon Observatory",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "gsap": "^3.15.0",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/three": "0.186.0",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.1"
+  }
+}

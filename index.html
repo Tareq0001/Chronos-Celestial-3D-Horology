@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>كـرونـوس | المرصد الميكانيكي الحركي الفلكي ثلاثي الأبعاد | CHRONOS</title>
+  <meta name="description" content="CHRONOS: Celestial 3D Kinetic Horology & Tourbillon Observatory. Engineered by Lead Systems Architect Tareq Abuashi.">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+</head>
+<body>
+  <div class="ambient-glow"></div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand-wrapper">
+      <div class="brand-logo-mark">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e0a96d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title" id="text-brand-title">كـرونـوس</h1>
+        <p class="brand-subtitle" id="text-brand-subtitle">المرصد الميكانيكي الحركي الفلكي ثلاثي الأبعاد</p>
+      </div>
+      <div class="architect-badge">
+        <span>⚙️</span>
+        <span id="text-architect-tag">أ. طارق ابوعشي</span>
+      </div>
+    </div>
+
+    <!-- Navigation & Global Controls -->
+    <div class="nav-actions">
+      <button class="nav-tab-btn active" id="btn-nav-observatory">
+        <span>🔭</span>
+        <span id="text-nav-observatory">المرصد الحركي</span>
+      </button>
+
+      <button class="nav-tab-btn" id="btn-open-cosc">
+        <span>📜</span>
+        <span id="text-nav-cosc">فحص الكرونومتر COSC</span>
+      </button>
+
+      <button class="nav-tab-btn" id="btn-open-specs">
+        <span>📑</span>
+        <span id="text-nav-specs">المواصفات التقنية</span>
+      </button>
+
+      <!-- Escapement Audio Toggle -->
+      <button class="icon-btn" id="btn-toggle-sound" title="صوت الدقات الميكانيكية">
+        <svg id="icon-sound-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <svg id="icon-sound-off" style="display:none;" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+      </button>
+
+      <!-- Language Toggle -->
+      <button class="icon-btn" id="btn-toggle-lang" title="Toggle Language">
+        <span id="label-lang" style="font-weight:700; font-size: 0.85rem;">EN</span>
+      </button>
+
+      <!-- Theme Toggle -->
+      <button class="icon-btn" id="btn-toggle-theme" title="تبديل النمط">
+        <span id="label-theme">🌓</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 3D Canvas -->
+  <div id="webgl-container"></div>
+
+  <!-- Floating Left Panel: Material Customizer -->
+  <aside class="floating-side-panel floating-left glass-panel" id="panel-customizer">
+    <div>
+      <h2 class="panel-section-title" id="text-customizer-title">
+        <span>💎</span>
+        <span>تخصيص الخامات الحرفية الراقية</span>
+      </h2>
+
+      <!-- Case Metal -->
+      <div style="margin-bottom: 1rem;">
+        <label class="option-group-label" id="text-case-material">سبيكة العلبة الفاخرة</label>
+        <div class="option-pill-grid">
+          <button class="option-pill active" data-case="platinum" id="btn-mat-plat">بلاتين 950 نقي</button>
+          <button class="option-pill" data-case="rosegold" id="btn-mat-rose">ذهب وردي 18K 5N</button>
+          <button class="option-pill" data-case="titanium" id="btn-mat-ti">تيتانيوم الدرجة 5</button>
+          <button class="option-pill" data-case="carbon" id="btn-mat-carb">كربون مركب</button>
+        </div>
+      </div>
+
+      <!-- Dial Pattern -->
+      <div style="margin-bottom: 1rem;">
+        <label class="option-group-label" id="text-dial-pattern">زخرفة الميناء الحرفية (Guilloché)</label>
+        <div class="option-pill-grid">
+          <button class="option-pill active" data-dial="clous_de_paris" id="btn-dial-clous">مسامير باريس</button>
+          <button class="option-pill" data-dial="sunburst" id="btn-dial-sun">أشعة الشمس</button>
+          <button class="option-pill" data-dial="navy_guilloche" id="btn-dial-navy">أمواج جنيف الزرقاء</button>
+          <button class="option-pill" data-dial="skeleton" id="btn-dial-skel">هيكل مفرغ مكشوف</button>
+        </div>
+      </div>
+
+      <!-- Screw Finish -->
+      <div style="margin-bottom: 1rem;">
+        <label class="option-group-label" id="text-screws-color">معالجة المسامير الميكانيكية</label>
+        <div class="option-pill-grid">
+          <button class="option-pill active" data-screw="blued" id="btn-screw-blue">فولاذ أزرق ملكي</button>
+          <button class="option-pill" data-screw="polished" id="btn-screw-pol">بلاتين مصقول</button>
+          <button class="option-pill" data-screw="gold" id="btn-screw-gold">ذهب عيار 18</button>
+        </div>
+      </div>
+
+      <!-- Sound Volume Control -->
+      <div>
+        <label class="option-group-label" id="text-sound-volume">مستوى الرنين الصوتي للدقات (4Hz)</label>
+        <input type="range" class="custom-range" id="input-sound-volume" min="0" max="1" step="0.05" value="0.6">
+      </div>
+    </div>
+  </aside>
+
+  <!-- Floating Right Panel: Layer Inspector & Chronograph -->
+  <aside class="floating-side-panel floating-right glass-panel" id="panel-inspector">
+    <!-- Chronograph Section -->
+    <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 1rem;">
+      <h2 class="panel-section-title" id="text-chrono-title">
+        <span>⏱️</span>
+        <span>الكرونوغراف عالي الدقة</span>
+      </h2>
+      <div class="chrono-display" id="chrono-time-display">00:00.00</div>
+      <div class="chrono-controls" style="margin-top: 0.75rem;">
+        <button class="quick-btn btn-chrono-start" id="btn-chrono-toggle">بدء العداد</button>
+        <button class="quick-btn btn-chrono-flyback" id="btn-chrono-flyback">قفزة العودة (Flyback)</button>
+      </div>
+      <p id="text-chrono-status" style="font-size: 0.74rem; color: var(--text-muted); text-align: center; margin-top: 0.4rem;">
+        الكرونوغراف جاهز للتشغيل
+      </p>
+    </div>
+
+    <!-- Layer Inspector -->
+    <div>
+      <h2 class="panel-section-title" id="text-layer-inspector-title">
+        <span>🔍</span>
+        <span>مستكشف الطبقات الميكانيكية</span>
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 0.5rem;" id="layers-list-container">
+        <!-- Injected dynamically -->
+      </div>
+    </div>
+  </aside>
+
+  <!-- Exploded View Spatial Control Bar (Bottom Center) -->
+  <div class="exploded-bar-container glass-panel">
+    <div class="exploded-slider-header">
+      <span id="text-explode-label">تفكيك الطبقات الميكانيكية في الفضاء الثلاثي (Exploded View)</span>
+      <span class="slider-pct" id="explode-pct-display">0%</span>
+    </div>
+    <input type="range" class="custom-range" id="input-explode-range" min="0" max="1" step="0.01" value="0">
+    <div class="slider-quick-actions">
+      <button class="quick-btn" id="btn-explode-all">
+        <span>💥</span>
+        <span id="text-btn-explode">تفكيك كامل</span>
+      </button>
+      <button class="quick-btn" id="btn-assemble-all">
+        <span>🧩</span>
+        <span id="text-btn-assemble">إعادة تجميع</span>
+      </button>
+      <button class="quick-btn" id="btn-reset-camera">
+        <span>🎯</span>
+        <span id="text-btn-reset-cam">ضبط المنظور</span>
+      </button>
+      <button class="quick-btn" id="btn-toggle-wireframe">
+        <span>🕸️</span>
+        <span id="text-btn-wireframe">الهيكل الشبكي</span>
+      </button>
+      <button class="quick-btn" id="btn-toggle-rotate">
+        <span>🔄</span>
+        <span id="text-btn-rotate">دوران مستمر</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- COSC Testing Laboratory Modal -->
+  <div class="cosc-modal-overlay" id="modal-cosc">
+    <div class="cosc-card glass-panel">
+      <div class="cosc-header">
+        <h2 class="cosc-title" id="text-cosc-title">مختبر فحص الكرونومتر السويسري (COSC Lab)</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);" id="text-cosc-subtitle">
+          المعيار الصارم للهيئة السويسرية لاختبارات الكرونومتر (ISO 3159)
+        </p>
+      </div>
+
+      <!-- Controls: Position & Temperature -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <label class="option-group-label" id="text-cosc-pos-label">وضعية الفحص (Position)</label>
+          <select id="select-cosc-pos" class="quick-btn" style="width: 100%; padding: 0.6rem;">
+            <option value="CH">الميناء لأعلى (Dial Up - CH)</option>
+            <option value="FH">الميناء لأسفل (Dial Down - FH)</option>
+            <option value="12H">التاج لأعلى (Crown Up - 12H)</option>
+            <option value="6H">التاج لأسفل (Crown Down - 6H)</option>
+            <option value="9H">التاج ليسار (Crown Left - 9H)</option>
+          </select>
+        </div>
+        <div>
+          <label class="option-group-label" id="text-cosc-temp-label">درجة الحرارة الاختبارية</label>
+          <select id="select-cosc-temp" class="quick-btn" style="width: 100%; padding: 0.6rem;">
+            <option value="23">٢٣ درجة مئوية (المختبر القياسي)</option>
+            <option value="8">٨ درجات مئوية (البرودة الألبية)</option>
+            <option value="38">٣٨ درجة مئوية (حرارة المعصم)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Live Rate Output -->
+      <div class="cosc-stat-box" style="margin-bottom: 1.5rem; background: rgba(56, 189, 248, 0.08); border-color: var(--blue-steel);">
+        <div class="stat-label" id="text-cosc-current-rate">معدل الانحراف اليومي اللحظي</div>
+        <div class="stat-value" id="cosc-live-rate-display">+1.2 s/d</div>
+        <div style="font-size: 0.82rem; color: #34d399; font-weight: 600; margin-top: 0.25rem;" id="cosc-compliance-status">
+          ✓ مطابق لمعايير الكرونومتر السويسرية (-4 إلى +6 ثوانٍ/يوم)
+        </div>
+      </div>
+
+      <!-- 15-day metrics grid -->
+      <div class="cosc-metrics-grid">
+        <div class="cosc-stat-box">
+          <div class="stat-value" id="stat-m-rate">+1.32</div>
+          <div class="stat-label" id="label-m-rate">متوسط الانحراف اليومي (M)</div>
+        </div>
+        <div class="cosc-stat-box">
+          <div class="stat-value" id="stat-v-rate">0.42</div>
+          <div class="stat-label" id="label-v-rate">متوسط تباين الوضعيات (V)</div>
+        </div>
+        <div class="cosc-stat-box">
+          <div class="stat-value" id="stat-vmax-rate">1.18</div>
+          <div class="stat-label" id="label-vmax-rate">أقصى تباين (Vmax)</div>
+        </div>
+        <div class="cosc-stat-box">
+          <div class="stat-value" id="stat-c-rate">0.05</div>
+          <div class="stat-label" id="label-c-rate">المعامل الحراري (C)</div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display: flex; gap: 0.8rem; margin-bottom: 1.5rem;">
+        <button class="quick-btn" id="btn-run-15day" style="flex: 2; background: rgba(224, 169, 109, 0.2); border-color: var(--gold-primary); color: var(--gold-primary); font-weight: 600;">
+          <span>⚡</span>
+          <span id="text-run-15day">تشغيل فحص الـ 15 يوماً المعتمد</span>
+        </button>
+        <button class="quick-btn" id="btn-print-certificate" style="flex: 1;">
+          <span>🖨️</span>
+          <span id="text-print-cert">طباعة الشهادة (PDF)</span>
+        </button>
+      </div>
+
+      <!-- Official Certificate Box -->
+      <div class="cosc-certificate-stamp" id="cosc-cert-container">
+        <div>
+          <h3 style="font-family: var(--font-serif); color: var(--gold-primary); font-size: 1.1rem; margin-bottom: 0.25rem;" id="cert-title">
+            شهادة اعتماد الكرونومتر السويسرية المعتمدة
+          </h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted);">
+            الرقم التسلسلي: <strong style="color: var(--text-main);" id="cert-serial-no">CH-2026-TA915-8492</strong> | 
+            العيار: <strong style="color: var(--text-main);">CAL. CH-915 GRAND COMPLICATION</strong>
+          </p>
+          <p style="font-size: 0.76rem; color: var(--text-gold); margin-top: 0.3rem;">
+            المبتكر وكبير مهندسي النظم المعمارية: <strong>أ. طارق ابوعشي</strong>
+          </p>
+        </div>
+        <div class="seal-circle">
+          COSC<br>TA915<br>CERTIFIED
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button class="quick-btn" id="btn-close-cosc" style="width: 140px; margin: 0 auto;">
+          <span id="text-close-cosc">إغلاق</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Technical Specifications Dossier Modal -->
+  <div class="cosc-modal-overlay" id="modal-specs">
+    <div class="cosc-card glass-panel">
+      <div class="cosc-header">
+        <h2 class="cosc-title" id="text-specs-title">دفتر الشروط والمواصفات الميكانيكية للعيار CH-915</h2>
+        <p style="font-size: 0.85rem; color: var(--text-muted);">
+          Master Technical Dossier | Haute Horlogerie Astronomical Calibre
+        </p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 0.8rem;" id="specs-list-container">
+        <!-- Injected via TypeScript -->
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <button class="quick-btn" id="btn-close-specs" style="width: 140px; margin: 0 auto;">
+          <span>إغلاق</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
